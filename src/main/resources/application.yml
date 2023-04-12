@@ -1,0 +1,4 @@
+jwt.auth.app: gyhame;
+jwt.auth.secret_key: sdfsldfjsdlfjd
+
+jwt.auth.expires_in: 2535
