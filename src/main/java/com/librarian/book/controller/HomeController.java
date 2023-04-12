@@ -22,7 +22,7 @@ public interface HomeController {
     ResponseEntity<List<ReviewGetResources>> getAll();
 
 
-//    @PostMapping("/jwt-generate")
-//    ResponseEntity<?> generateJwt(@RequestBody Map<String, Object> values) throws InvalidKeySpecException, NoSuchAlgorithmException;
+    @PostMapping("/jwt-generate")
+    ResponseEntity<?> generateJwt(@RequestBody Map<String, Object> values) throws InvalidKeySpecException, NoSuchAlgorithmException;
 
 }

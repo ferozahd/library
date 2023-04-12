@@ -82,24 +82,18 @@ public class HomeControllerImpl implements HomeController {
         return ResponseEntity.ok(response);
     }
 
-//    @Override
-//    public ResponseEntity<?> generateJwt(Map<String, Object> values)  {
-//        String jws = Jwts.builder()
-//                .setSubject("user.getCompanyId().toString()")
-//                .signWith(SignatureAlgorithm.HS512, "secret")
-//                .compact();
-//        return ResponseEntity.ok(Jwts.builder()
-//                .setHeaderParam("kid", "my-key-id")
-//                .setHeaderParam("alg", "HS256")
-//                .setIssuer("Feroz")
-//                        .setSubject("sdfsdjf")
-//
-//                        .setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(new Date(System.currentTimeMillis()+1000))
-//                .signWith(SignatureAlgorithm.HS256, "YW1lcnNvbmFyYmFuZ2xh")
-//                .compact());
-//
-//    }
+    @Override
+    public ResponseEntity<?> generateJwt(Map<String, Object> values)  {
+
+        return ResponseEntity.ok(Jwts.builder()
+                .setSubject("Feroz")
+                .setClaims(values)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis()+1000))
+                .signWith(SignatureAlgorithm.HS512, "YW1lcnNvbmFuhijmmlugbuhnuhwerhwefsndfjdfbgifandidshgbweidknaklfbndsjabqiwfjnesofwandjerbgioewjfsdoknijyYmFuZ2xh")
+                .compact());
+
+    }
 
 
 }
