@@ -1,29 +1,29 @@
 package com.librarian.book.controller;
 
-import com.librarian.book.entity.auth.User;
-import com.librarian.book.resources.auth.AuthResponse;
-import com.librarian.book.resources.auth.LoginPostResources;
-import com.librarian.book.resources.auth.UserRegisterGetResources;
-import com.librarian.book.resources.auth.UserRegisterPostResources;
+import com.librarian.book.resources.auth.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
-@RequestMapping("/auth")
+@RequestMapping("auth")
 public interface AuthenticationController {
 
+    @PostMapping("/user/register")
+    ResponseEntity<UserGetResources> register(@RequestBody @Valid UserRegisterPostResources registerPostResources);
 
-    @PostMapping("/register")
-    ResponseEntity<UserRegisterGetResources> register(@RequestBody UserRegisterPostResources registerPostResources);
+    @PatchMapping("user/update/{id}")
+    ResponseEntity<UserGetResources> updateUser(@PathVariable String id, @RequestBody @Valid UserPatchResources patchResources );
+
+    @DeleteMapping("user/delete/{id}")
+    ResponseEntity<?> deleteUser(@PathVariable String id);
 
     @GetMapping("/register/get-all")
-    ResponseEntity<List<UserRegisterGetResources>> getAll();
+    ResponseEntity<List<UserGetResources>> getAll();
+
 
     @PostMapping("/login")
-    ResponseEntity<AuthResponse> login(@RequestBody LoginPostResources postResources);
+    ResponseEntity<AuthGetResource> login(@Valid @RequestBody LoginPostResources post);
 
 }

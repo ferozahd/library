@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserRegisterGetResources {
+public class UserGetResources {
 
     private String id;
     private  String studentName;

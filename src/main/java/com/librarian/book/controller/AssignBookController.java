@@ -1,5 +1,6 @@
 package com.librarian.book.controller;
 
+import com.librarian.book.resources.book.assigned.AssignBook;
 import com.librarian.book.resources.book.assigned.AssignBookGetResources;
 import com.librarian.book.resources.book.assigned.AssignBookPostResources;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +13,8 @@ import java.util.List;
 
 @RequestMapping("assignBook/")
 public interface AssignBookController {
-    @PostMapping("/create")
-    ResponseEntity<AssignBookGetResources> assign(@RequestBody AssignBookPostResources assignBookPostResources);
+    @PostMapping("create")
+   ResponseEntity<AssignBookGetResources> assign(@RequestBody AssignBookPostResources assignBookPostResources);
     @GetMapping("/get-All")
     ResponseEntity<List<AssignBookGetResources>> getAll();
 }

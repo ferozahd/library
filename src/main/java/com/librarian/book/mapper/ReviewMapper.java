@@ -1,30 +1,35 @@
-//package com.librarian.book.mapper;
-//
-//import com.librarian.book.entity.Review;
-//import com.librarian.book.resources.review.ReviewGetResources;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.stereotype.Component;
-//
-//import javax.annotation.processing.Generated;
-//
-//@Generated(
-//        value = "org.mapstruct.ap.MappingProcessor",
-//        date = "2023-02-23T01:35:40+0600",
-//        comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.4.1 (Oracle Corporation)"
-//)
-//@Component
-//public class ReviewMapperImpl implements  ReviewMapper{
-//
-//
-//    @Override
-//    public ReviewGetResources toResources(Review review) {
-//        ReviewGetResources resources=new ReviewGetResources();
-//        resources.setId(review.getId().toHexString());
-//        resources.setStudentName(review.getStudentName());
-//        resources.setRoll(review.getRoll());
-//        resources.setReview(review.getReview());
-//        return resources;
-//    }
-//
-//
-//}
+package com.librarian.book.mapper;
+
+
+import com.librarian.book.entity.Review;
+import com.librarian.book.entity.auth.User;
+import com.librarian.book.resources.review.ReviewGetResources;
+import com.librarian.book.resources.review.ReviewPostResources;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ReviewMapper {
+
+    public Review toReviewWithStudent( ReviewPostResources reviewPostResources){
+       Review review = new Review();
+//       review.setStudentId(student.getId().toHexString());
+       review.setLevel(reviewPostResources.getLevel());
+       review.setReviewText(reviewPostResources.getReviewText());
+       return review;
+   }
+
+
+    public ReviewGetResources toReviewGetResource(User student, Review review){
+        ReviewGetResources response = new ReviewGetResources();
+        response.setId(review.getId().toHexString());
+        response.setStudentId(student.getId().toHexString());
+        response.setStudentName(student.getStudentName());
+        response.setEmail(student.getEmail());
+        response.setReviewText(review.getReviewText());
+        response.setLevel(review.getLevel());
+        return response;
+    }
+
+
+
+}

@@ -27,7 +27,7 @@ public class AssignBookControllerImpl implements AssignBookController {
         AssignBookGetResources assignBookGetResources=new AssignBookGetResources();
         assignBookGetResources.setId(assignBook.getId().toHexString());
         assignBookGetResources.setBookName(assignBook.getBookName());
-        assignBookGetResources.setWriterName(assignBook.getWriterName());
+//        assignBookGetResources.setWriterName(assignBook.getWriterName());
         return ResponseEntity.ok(assignBookGetResources);
     }
 
@@ -40,7 +40,7 @@ public class AssignBookControllerImpl implements AssignBookController {
            AssignBookGetResources resources=new AssignBookGetResources();
             resources.setId(assignBook .getId().toHexString());
             resources.setBookName(assignBook.getBookName());
-            resources.setWriterName(assignBook.getWriterName());
+//            resources.setWriterName(assignBook.getWriterName());
             response.add( resources);
 
         });

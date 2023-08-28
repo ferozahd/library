@@ -1,6 +1,7 @@
 package com.librarian.book.resources.review;
 
-import com.librarian.book.enums.ReviewEnum;
+import com.librarian.book.entity.Review;
+import com.librarian.book.enums.LevelEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,11 +9,21 @@ import lombok.Setter;
 @Setter
 public class ReviewGetResources {
     private String id;
+    private String  studentId;
+    private String reviewText;
+    private LevelEnum  level;
     private String studentName;
-    private String roll;
-    private String review;
+    private String email;
 
-    private String bookName;
-
-
+    @Override
+    public String toString() {
+        return "ReviewGetResources{" +
+                "id='" + id + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", reviewText='" + reviewText + '\'' +
+                ", level=" + level +
+                ", studentName='" + studentName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

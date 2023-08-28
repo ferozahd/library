@@ -1,2 +1,3 @@
-package com.librarian.book.utiles;public class VariableUtils {
+package com.librarian.book.utiles;
+public class VariableUtils {
 }
