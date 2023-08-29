@@ -9,17 +9,16 @@ import com.librarian.book.resources.review.ReviewGetResources;
 import com.librarian.book.resources.review.ReviewPostResources;
 import com.librarian.book.service.AuthService;
 import com.librarian.book.service.CommonService;
-import com.librarian.book.service.JwtTokenService;
 import com.librarian.book.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReviewServiceImpl implements ReviewService {
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
@@ -27,23 +26,14 @@ public class ReviewServiceImpl implements ReviewService {
     private final AuthService authService;
     private final CommonService commonService;
 
-    //autowired or requiredarugmentcontactor or next line
 
     @Override
     public ReviewGetResources create(ReviewPostResources reviewPostResources) {
         User user = userRepository.findById(new ObjectId(commonService.getId())).orElseThrow(() -> new ResourceNotFoundException("user not found"));
                     Review review = reviewMapper.toReviewWithStudent(reviewPostResources);
+                  review.setStudentId(user.getId().toHexString());
                     reviewRepository.save(review);
                     return reviewMapper.toReviewGetResource(user,review);
-
-
-
-//        return userRepository.findById(new ObjectId(reviewPostResources.getStudentId()))
-//                .map(student -> {
-//                    Review review = reviewMapper.toReviewWithStudent(student, reviewPostResources);
-//                    reviewRepository.save(review);
-//                    return reviewMapper.toReviewGetResource(student, review);
-//                }).orElseThrow(() -> new ResourceNotFoundException("Student not found , Taile k review dicche"));
 
     }
 

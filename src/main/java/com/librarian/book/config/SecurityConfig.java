@@ -28,7 +28,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAuthenticationFilter filter;
     public static String[] publicMatcher = {
             "/auth/**",
-           "/review/**",
             "/swagger-resources/**",
             "/swagger-ui/**",
             "/v2/**",

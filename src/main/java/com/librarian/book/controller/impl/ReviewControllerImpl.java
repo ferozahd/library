@@ -10,6 +10,7 @@ import com.librarian.book.service.ReviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.*;
 
 
@@ -24,7 +25,7 @@ public class ReviewControllerImpl implements ReviewController {
 
     }
     @Override
-    public ResponseEntity<ReviewGetResources> create(ReviewPostResources reviewPostResources) {
+    public ResponseEntity<ReviewGetResources> create(@Valid ReviewPostResources reviewPostResources) {
         return ResponseEntity.ok(reviewService.create(reviewPostResources));
     }
 
