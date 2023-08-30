@@ -1,10 +1,12 @@
 package com.librarian.book.repository.custom.impl;
+
 import com.librarian.book.entity.auth.User;
 import com.librarian.book.repository.custom.UserCustomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -13,17 +15,14 @@ public class UserRepositoryImpl implements UserCustomRepository {
 
     @Override
     public Optional<User> findByEmail(String email) {
-            Query query = new Query(Criteria.where("email").is(email));
-            User user = mongoTemplate.findOne(query, User.class);
-            return Optional.ofNullable(user);
-        }
-
+        final Query query = new Query(Criteria.where("email").is(email));
+        return Optional.ofNullable(mongoTemplate.findOne(query, User.class));
+    }
 
 
     @Override
     public Optional<User> findByStudentName(String name) {
-        Query query = new Query(Criteria.where("studentName").is(name));
-        User user = mongoTemplate.findOne(query, User.class);
-        return Optional.ofNullable(user);
+        final Query query = new Query(Criteria.where("studentName").is(name));
+        return Optional.ofNullable(mongoTemplate.findOne(query, User.class));
     }
 }
