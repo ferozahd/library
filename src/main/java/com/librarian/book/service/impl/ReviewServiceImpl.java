@@ -23,7 +23,6 @@ public class ReviewServiceImpl implements ReviewService {
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
     private final ReviewMapper reviewMapper;
-    private final AuthService authService;
     private final CommonService commonService;
 
 
@@ -43,19 +42,19 @@ public class ReviewServiceImpl implements ReviewService {
                 .stream()
                 .map(
                         review -> {
-                            User student = userRepository.findById(new ObjectId(commonService.getId())).get();
+                            User student = userRepository.findById(new ObjectId(review.getStudentId())).get();
                             return reviewMapper.toReviewGetResource(student, review);
                         }
                 ).toList();
     }
 
     @Override
-    public List<ReviewGetResources> getReviewDetailsByUserId(String id) {
-        return reviewRepository.findByStudentId(id)
+    public List<ReviewGetResources> getReviewDetailsByCurrentUser() {
+        return reviewRepository.findByStudentId(commonService.getId())
                 .stream()
                 .map(
                         review -> {
-                            User student = userRepository.findById(new ObjectId(id)).get();
+                            User student = userRepository.findById(new ObjectId(review.getStudentId())).get();
                             return reviewMapper.toReviewGetResource(student, review);
                         }
                 ).toList();

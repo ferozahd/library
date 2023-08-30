@@ -19,8 +19,8 @@ public interface ReviewController {
     @GetMapping("/{reviewId}")
     ResponseEntity<ReviewGetResources> findById(@PathVariable String reviewId);
 
-    @GetMapping("/user/{id}")
-    ResponseEntity<List<ReviewGetResources>> getReviewDetailsByUserId(@PathVariable String id);
+    @GetMapping("/current-user")
+    ResponseEntity<List<ReviewGetResources>> getReviewDetailsByCurrentUser();
 
 
 

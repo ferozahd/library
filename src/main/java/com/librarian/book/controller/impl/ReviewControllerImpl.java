@@ -40,8 +40,8 @@ public class ReviewControllerImpl implements ReviewController {
     }
 
     @Override
-    public ResponseEntity<List<ReviewGetResources>> getReviewDetailsByUserId(String id) {
-        return ResponseEntity.ok(reviewService.getReviewDetailsByUserId(id));
+    public ResponseEntity<List<ReviewGetResources>> getReviewDetailsByCurrentUser() {
+        return ResponseEntity.ok(reviewService.getReviewDetailsByCurrentUser());
     }
 
 
