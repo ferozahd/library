@@ -1,24 +1,19 @@
 package com.librarian.book.controller.advisor;
-
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.librarian.book.controller.advisor.enums.ErrorType;
 import com.librarian.book.controller.advisor.resources.FormErrorResources;
-import com.librarian.book.exception.InvalidEnumException;
+import com.librarian.book.exception.InvalidConversion;
 import com.librarian.book.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
-
 @ControllerAdvice
 public class ControllerAdvisors {
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -41,7 +36,30 @@ public class ControllerAdvisors {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(error);
     }
+    @ExceptionHandler({ConstraintViolationException.class})
+    public ResponseEntity<FormErrorResources> handleJsonExceptionInPost(ConstraintViolationException exception){
+        List<String> violations = exception.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
+        FormErrorResources error =new FormErrorResources();
+        error.setErrors(violations);
+        error.setType(ErrorType.NOTIFY_DEVELOPER);
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setTimestamp(LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
 
+
+    @ExceptionHandler({InvalidConversion.class})
+    public ResponseEntity<FormErrorResources> handleJsonExceptionInPost(InvalidConversion exception){
+
+        FormErrorResources error =new FormErrorResources();
+        error.setErrors(List.of(exception.getMessage()));
+        error.setType(ErrorType.FORM_VALIDATION);
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setTimestamp(LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleDataValidationException(MethodArgumentNotValidException exception){
 

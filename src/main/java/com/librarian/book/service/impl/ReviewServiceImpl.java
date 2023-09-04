@@ -10,11 +10,17 @@ import com.librarian.book.resources.review.ReviewPostResources;
 import com.librarian.book.service.AuthService;
 import com.librarian.book.service.CommonService;
 import com.librarian.book.service.ReviewService;
+import com.librarian.book.utiles.VariableUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +30,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReviewMapper reviewMapper;
     private final CommonService commonService;
+    private final MongoTemplate mongoTemplate;
 
 
     @Override
@@ -38,14 +45,26 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ReviewGetResources> getAll() {
-        return reviewRepository.findAll()
-                .stream()
-                .map(
-                        review -> {
-                            User student = userRepository.findById(new ObjectId(review.getStudentId())).get();
-                            return reviewMapper.toReviewGetResource(student, review);
-                        }
-                ).toList();
+        log.info("################################   GET ALL ###################################");
+//        return reviewRepository.findAll()
+//                .stream()
+//                .map(
+//                        review -> {
+//                            User student = userRepository.findById(new ObjectId(review.getStudentId())).get();
+//                            return reviewMapper.toReviewGetResource(student, review);
+//                        }
+//                ).toList();
+
+
+        // solution number 1
+        List<Review> reviews = reviewRepository.findAll();
+        List<User> users = userRepository.findByIdIn(reviews.stream().map(Review::getStudentId).map(ObjectId::new).collect(Collectors.toSet()));
+
+        return reviews.stream().map(review ->
+                             reviewMapper.toReviewGetResource(users.stream().filter(u->u.getId().toHexString().equals(review.getStudentId())).findFirst().get(), review)
+        ).collect(Collectors.toList());
+
+
     }
 
     @Override
@@ -59,6 +78,16 @@ public class ReviewServiceImpl implements ReviewService {
                         }
                 ).toList();
 
+    }
+
+    @Override
+    public ReviewGetResources findById(String reviewId) {
+        return reviewRepository.findById(VariableUtils.strToObjId(reviewId))
+                .map(  review -> {
+                    User student = userRepository.findById(new ObjectId(review.getStudentId())).get();
+                    return reviewMapper.toReviewGetResource(student, review);
+                })
+                .orElseThrow(()->new ResourceNotFoundException("Review Not found"));
     }
 
 

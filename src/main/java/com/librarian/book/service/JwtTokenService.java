@@ -3,6 +3,7 @@ package com.librarian.book.service;
 
 import com.librarian.book.model.security.TokenClaimModel;
 
+import javax.validation.Valid;
 
 
 public interface JwtTokenService {

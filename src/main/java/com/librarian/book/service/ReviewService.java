@@ -12,4 +12,6 @@ public interface ReviewService {
 
 
    List<ReviewGetResources> getReviewDetailsByCurrentUser();
+
+    ReviewGetResources findById(String reviewId);
 }

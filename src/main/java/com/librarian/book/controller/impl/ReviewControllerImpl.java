@@ -32,11 +32,12 @@ public class ReviewControllerImpl implements ReviewController {
     @Override
     public ResponseEntity<List<ReviewGetResources>> getAll() {
         return ResponseEntity.ok(reviewService.getAll());
+
     }
 
     @Override
     public ResponseEntity<ReviewGetResources> findById(String reviewId) {
-        return null;
+        return ResponseEntity.ok(reviewService.findById(reviewId));
     }
 
     @Override
